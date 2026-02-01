@@ -109,4 +109,21 @@ npm run dev
 
 ---
 
+## 🤝 Contribuição
+
+Encontrou um bug ou tem uma sugestão de melhoria? Sinta-se à vontade para contribuir!
+
+1.  Abra uma **Issue** relatando o problema ou ideia.
+2.  Faça um **Fork** do projeto.
+3.  Crie uma branch para sua feature (`git checkout -b feature/minha-melhoria`).
+4.  Submeta um **Pull Request**.
+
+## 📄 Licença
+
+Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+© 2026 Pedro Henrique Simão Soares. Todos os direitos reservados.
+
+---
+
 *As questões foram geradas com base em simulados oficiais e documentação da AWS, processadas por IA para garantir diversidade e cobertura dos tópicos.*
