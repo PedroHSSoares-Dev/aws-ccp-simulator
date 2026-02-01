@@ -4,7 +4,7 @@ import { HomeScreen } from './components/HomeScreen';
 import { ExamLayout } from './components/exam/ExamLayout';
 import { ResultsScreen } from './components/results/ResultsScreen';
 import { DashboardScreen } from './components/dashboard/DashboardScreen';
-import { AppHeader } from './components/ui/AppHeader';
+// import { AppHeader } from './components/ui/AppHeader';
 import { useExamStore } from './stores/examStore';
 import { useHistoryStore } from './stores/historyStore';
 import { useSettingsStore } from './stores/settingsStore';
@@ -265,7 +265,8 @@ function App() {
   return (
     <div className="min-h-screen bg-background text-text-primary transition-colors duration-200">
       {/* Floating Header with Theme and Language Toggles */}
-      <AppHeader />
+      {/* Header removed from here to be placed inside specific screens if needed, or we render it conditionally */}
+      {/* <AppHeader /> */}
 
       {view === 'home' && (
         <HomeScreen

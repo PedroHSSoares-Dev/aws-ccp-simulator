@@ -92,7 +92,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onBack, questi
             );
             const lastScore = sorted[0].score;
             const previousScore = sorted[1].score;
-            trend = Math.round(((lastScore - previousScore) / previousScore) * 100);
+            trend = previousScore === 0 ? 100 : Math.round(((lastScore - previousScore) / previousScore) * 100);
         }
 
         return {
