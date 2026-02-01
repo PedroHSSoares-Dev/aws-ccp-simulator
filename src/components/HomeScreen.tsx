@@ -30,6 +30,7 @@ import type { WrongAnswersConfig } from './modals/WrongAnswersConfigModal';
 import { WrongAnswersConfigModal } from './modals/WrongAnswersConfigModal';
 import type { PracticeModeConfig } from './modals/PracticeModeConfigModal';
 import { PracticeModeConfigModal } from './modals/PracticeModeConfigModal';
+import { TermsModal } from './modals/TermsModal';
 import { ConfirmationModal } from './modals/ConfirmationModal';
 import { ThemeToggle } from './ui/ThemeToggle';
 import { AudioToggle } from './ui/AudioToggle';
@@ -537,6 +538,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </footer>
 
             {/* Modals */}
+            <TermsModal
+                isOpen={showTermsModal}
+                onAccept={handleAcceptTerms}
+                onDecline={() => {
+                    setShowTermsModal(false);
+                    setPendingAction(null);
+                    setPendingMode(null);
+                }}
+            />
             <WrongAnswersConfigModal
                 isOpen={showWrongAnswersModal}
                 onClose={() => setShowWrongAnswersModal(false)}
