@@ -154,8 +154,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onBack, questi
     // Weak points based on domain performance
     const weakPoints = useMemo(() => {
         return domainPerformance
-            .filter(d => d.percentage < 70)
-            .sort((a, b) => a.percentage - b.percentage)
+            .filter(d => d.percentage < 75) // Show items with < 75% accuracy
+            .sort((a, b) => (b.total - b.correct) - (a.total - a.correct)) // Sort by Most Errors first
             .slice(0, 4)
             .map(d => {
                 const domainNames: Record<DomainKey, string> = {

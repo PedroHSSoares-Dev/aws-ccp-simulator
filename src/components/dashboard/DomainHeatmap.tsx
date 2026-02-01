@@ -36,15 +36,14 @@ const domainIcons: Record<DomainKey, React.ComponentType<any>> = {
 };
 
 const getPerformanceColor = (percentage: number): string => {
-    if (percentage >= 80) return 'bg-success/20 border-success text-success';
-    if (percentage >= 65) return 'bg-warning/20 border-warning text-warning';
+    if (percentage > 75) return 'bg-success/20 border-success text-success';
+    if (percentage > 45) return 'bg-warning/20 border-warning text-warning';
     return 'bg-error/20 border-error text-error';
 };
 
 const getPerformanceLabel = (percentage: number): string => {
-    if (percentage >= 80) return 'Excelente';
-    if (percentage >= 65) return 'Bom';
-    if (percentage >= 50) return 'Regular';
+    if (percentage > 75) return 'Excelente';
+    if (percentage > 45) return 'Regular';
     return 'Precisa Melhorar';
 };
 

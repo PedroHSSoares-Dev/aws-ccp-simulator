@@ -37,9 +37,11 @@
   - **Revisão de Erros**: Gere provas focadas apenas nas questões que você errou anteriormente.
   - **Quick Exam**: Provas rápidas de 20 questões para treino diário.
 
-## 🎬 Demonstração
+## 🎬 Demonstração e Acesso
 
-Veja o fluxo completo de uso (Home → Prova Prática → Dashboard):
+☁️ **Acesse agora**: [https://aws-ccp-simulator.vercel.app/](https://aws-ccp-simulator.vercel.app/)
+
+Veja o fluxo completo (Home → Prova Prática → Dashboard):
 
 ![App Demo](docs/demo.webp)
 
@@ -56,6 +58,13 @@ Veja o fluxo completo de uso (Home → Prova Prática → Dashboard):
 ## ✅ Status de Verificação
 
 > **Testado e Validado (Fev/2026)**: Todas as funcionalidades essenciais (Router, State, Modais, Persistência) foram verificadas manualmente. O fluxo de build Docker e CI/CD está operacional.
+
+## 🔒 Privacidade e Isolamento de Dados
+
+Como a aplicação é distribuída via Vercel apenas como Frontend:
+1.  **LocalStorage**: Todos os seus dados (progresso, histórico de exames) ficam salvos **apenas no seu navegador**.
+2.  **Isolamento**: Não compartilhamos banco de dados. O histórico de um usuário não interfere no de outro.
+3.  **Persistência**: Seus dados permanecem salvos enquanto você não limpar o cache do navegador.
 
 ## 🚀 Como Usar (Docker)
 

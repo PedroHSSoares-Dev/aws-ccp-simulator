@@ -334,10 +334,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             <footer className="border-t border-border py-6 mt-8">
                 <div className="max-w-4xl mx-auto px-4 text-center text-sm text-text-secondary space-y-2">
                     <p className="text-warning font-medium">
-                        ⚠️ 100% Vibecoded - Não confie cegamente nas respostas!
+                        ⚠️ 100% Gerado por IA - Não confie cegamente nas respostas, revise sempre!
                     </p>
                     <p>
-                        Este simulador foi criado com IA e pode conter erros. Sempre verifique com a documentação oficial da AWS.
+                        Este simulador exibe questões criadas por uma Large Language Model (LLM). Verifique sempre com a documentação oficial.
                     </p>
                 </div>
             </footer>
