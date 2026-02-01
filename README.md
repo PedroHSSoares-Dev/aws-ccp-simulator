@@ -18,7 +18,7 @@
 
 ## 📈 Números do Projeto
 
-- 1.200+ questões oficiais CLF-C02.
+- 1.200+ questões baseadas no exame CLF-C02.
 - 4 domínios AWS mapeados.
 - 3 modos de estudo (Oficial, Prática, Revisão).
 - 100% TypeScript para type-safety.
