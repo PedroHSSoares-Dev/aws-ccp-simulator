@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { HomeScreen } from './components/HomeScreen';
 import { ExamLayout } from './components/exam/ExamLayout';
 import { ResultsScreen } from './components/results/ResultsScreen';
@@ -310,6 +311,7 @@ function App() {
           questions={loadedQuestions}
         />
       )}
+      <Analytics />
     </div>
   );
 }
