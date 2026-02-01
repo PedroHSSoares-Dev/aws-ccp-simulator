@@ -37,6 +37,12 @@
   - **Revisão de Erros**: Gere provas focadas apenas nas questões que você errou anteriormente.
   - **Quick Exam**: Provas rápidas de 20 questões para treino diário.
 
+## 🎬 Demonstração
+
+Veja o fluxo completo de uso (Home → Prova Prática → Dashboard):
+
+![App Demo](docs/demo.webp)
+
 ## 📸 Screenshots
 
 | Dashboard Analítico | Interface de Exame |
@@ -46,6 +52,10 @@
 <p align="center">
   <img src="docs/screenshots/home.png" alt="Home Screen" width="600" />
 </p>
+
+## ✅ Status de Verificação
+
+> **Testado e Validado (Fev/2026)**: Todas as funcionalidades essenciais (Router, State, Modais, Persistência) foram verificadas manualmente. O fluxo de build Docker e CI/CD está operacional.
 
 ## 🚀 Como Usar (Docker)
 
