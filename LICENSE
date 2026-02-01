@@ -4,14 +4,17 @@ This software is provided for personal, educational, and non-commercial use only
 
 1. PERMISSIONS
    - You may run this software locally for personal study and exam preparation.
-   - You may view the source code for educational purposes.
+   - You may view and modify the source code for personal educational purposes.
+   - You may modify the source code for the purpose of contributing improvements (Pull Requests) to the original repository.
 
 2. RESTRICTIONS
-   - COMMERCIAL USE PROHIBITED: You may not use this software for any commercial purpose, including but not limited to selling access, training courses, or paid services.
-   - MODIFICATION PROHIBITED: You may not modify, alter, or create derivative works from this software or its source code.
-   - REDISTRIBUTION PROHIBITED: You may not redistribute detailed copies of this software or its modified versions.
+   - COMMERCIAL USE PROHIBITED: You may not use this software for any commercial purpose (including but not limited to selling access, training courses, or paid services) without a separate commercial license from the author.
+   - REDISTRIBUTION PROHIBITED: You may not redistribute copies of this software or its modified versions as a standalone product.
 
-3. NO WARRANTY
+3. COMMERCIAL LICENSING
+   If you wish to use this software for commercial purposes (e.g., in a paid course, corporate training, or for-profit platform), you must obtain a commercial license from the author. Please open a GitHub Issue or contact the maintainer to discuss licensing terms.
+
+4. NO WARRANTY
    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 
 By using this software, you agree to these terms.

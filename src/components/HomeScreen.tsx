@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useHistoryStore } from '../stores/historyStore';
+import { useSettingsStore } from '../stores/settingsStore';
 import type { WrongAnswersConfig } from './modals/WrongAnswersConfigModal';
 import { WrongAnswersConfigModal } from './modals/WrongAnswersConfigModal';
 import type { PracticeModeConfig } from './modals/PracticeModeConfigModal';
@@ -45,14 +46,20 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     onOpenSettings,
 }) => {
     // Get raw data from store
+    // Get raw data from store
     const attempts = useHistoryStore((state) => state.attempts);
+
+    // Settings for Terms
+    const { termsAccepted, acceptTerms } = useSettingsStore();
 
     // State for modals
     const [showWrongAnswersModal, setShowWrongAnswersModal] = useState(false);
     const [showPracticeModeModal, setShowPracticeModeModal] = useState(false);
+    const [showTermsModal, setShowTermsModal] = useState(false);
 
     // Confirmation State
     const [pendingMode, setPendingMode] = useState<'official' | 'quick' | null>(null);
+    const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
 
     // Compute simple stats
     const userStats = useMemo(() => {
@@ -65,14 +72,40 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         };
     }, [attempts]);
 
+    const handleActionWithTerms = (action: () => void) => {
+        if (!termsAccepted) {
+            setPendingAction(() => action);
+            setShowTermsModal(true);
+        } else {
+            action();
+        }
+    };
+
     const handleModeClick = (mode: 'official' | 'quick') => {
-        setPendingMode(mode);
+        handleActionWithTerms(() => setPendingMode(mode));
     };
 
     const confirmStartExam = () => {
         if (pendingMode) {
             onStartExam(pendingMode);
             setPendingMode(null);
+        }
+    };
+
+    const handlePracticeClick = () => {
+        handleActionWithTerms(() => setShowPracticeModeModal(true));
+    };
+
+    const handleWrongAnswersClick = () => {
+        handleActionWithTerms(() => setShowWrongAnswersModal(true));
+    };
+
+    const handleAcceptTerms = () => {
+        acceptTerms();
+        setShowTermsModal(false);
+        if (pendingAction) {
+            pendingAction();
+            setPendingAction(null);
         }
     };
 
@@ -236,7 +269,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                         <Card
                             variant="interactive"
                             className="p-5 flex flex-col h-full hover:border-aws-light-blue/50 transition-colors text-left"
-                            onClick={() => setShowPracticeModeModal(true)}
+                            onClick={handlePracticeClick}
                         >
                             <div className="w-10 h-10 rounded-lg bg-aws-light-blue/10 flex items-center justify-center mb-4 text-aws-light-blue">
                                 <BookOpen className="w-6 h-6" />
@@ -272,7 +305,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                         <Card
                             variant="interactive"
                             className="p-5 flex flex-col h-full hover:border-error/50 transition-colors text-left"
-                            onClick={() => setShowWrongAnswersModal(true)}
+                            onClick={handleWrongAnswersClick}
                         >
                             <div className="w-10 h-10 rounded-lg bg-error/10 flex items-center justify-center mb-4 text-error">
                                 <Shield className="w-6 h-6" />
@@ -464,7 +497,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                         </div>
                         <h2 className="text-xl font-bold mb-3">Encontrou um bug ou tem uma sugestão?</h2>
                         <p className="text-text-secondary mb-6">
-                            Este projeto é colaborativo. Se você notar alguma questão desatualizada ou tiver ideias para melhorar a plataforma, abra uma Issue no GitHub.
+                            Este projeto é colaborativo (Source Available). Contribuições via **Pull Requests** são bem-vindas, seja para corrigir questões ou adicionar funcionalidades.
                         </p>
                         <a
                             href="https://github.com/PedroHSSoares-Dev/aws-ccp-simulator/issues/new"
@@ -493,7 +526,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                             <Github className="w-4 h-4" /> GitHub
                         </a>
                         <a href="https://github.com/PedroHSSoares-Dev/aws-ccp-simulator/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-text-primary transition-colors flex items-center gap-2">
-                            <Scale className="w-4 h-4" /> Licença MIT
+                            <Scale className="w-4 h-4" /> Uso Pessoal (Não Comercial)
                         </a>
                     </div>
 

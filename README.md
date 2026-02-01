@@ -7,7 +7,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square)
 ![Tailwind](https://img.shields.io/badge/Tailwind-CSS-38bdf8?style=flat-square)
 ![Docker](https://img.shields.io/badge/Docker-Ready-2496ed?style=flat-square)
-![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+![License](https://img.shields.io/badge/License-Source%20Available-blue?style=flat-square)
 
 ## 🎯 Diferenciais Técnicos
 
@@ -120,7 +120,18 @@ Encontrou um bug ou tem uma sugestão de melhoria? Sinta-se à vontade para cont
 
 ## 📄 Licença
 
-Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+![License](https://img.shields.io/badge/License-Source%20Available-blue?style=flat-square)
+
+...
+
+## 📄 Licença
+
+Este software é **Source Available** e gratuito para uso pessoal e educacional.
+
+1.  **Permissões**: Você pode estudar, executar localmente e enviar **Pull Requests** com melhorias.
+2.  **Restrições**: Proibido uso comercial (vender acesso, cursos, etc) sem autorização prévia.
+
+Veja o arquivo [LICENSE](LICENSE) para detalhes completos e contato para licenciamento comercial.
 
 © 2026 Pedro Henrique Simão Soares. Todos os direitos reservados.
 

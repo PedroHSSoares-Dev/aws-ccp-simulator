@@ -4,7 +4,7 @@
 
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import type { Settings, ThemeMode, AudioVolumes, DEFAULT_SETTINGS } from '../types';
+import type { Settings, ThemeMode, AudioVolumes } from '../types';
 
 interface SettingsStore {
     // State
@@ -15,6 +15,7 @@ interface SettingsStore {
     targetScore: number;
     deadline: string | null;
     schemaVersion: number;
+    termsAccepted: boolean;
 
     // Actions
     setTheme: (theme: ThemeMode) => void;
@@ -23,6 +24,7 @@ interface SettingsStore {
     setAudioVolume: (key: keyof AudioVolumes, value: number) => void;
     setTargetScore: (score: number) => void;
     setDeadline: (date: string | null) => void;
+    acceptTerms: () => void;
     resetSettings: () => void;
 }
 
@@ -54,8 +56,14 @@ export const useSettingsStore = create<SettingsStore>()(
             targetScore: 800,
             deadline: null,
             schemaVersion: 1,
+            termsAccepted: false,
 
             // Actions
+            acceptTerms: () => {
+                set({ termsAccepted: true });
+                syncSettingsToApi({ termsAccepted: true });
+            },
+
             setTheme: (theme) => {
                 set({ theme });
 
@@ -73,11 +81,13 @@ export const useSettingsStore = create<SettingsStore>()(
                         root.classList.remove('dark');
                     }
                 }
+                syncSettingsToApi({ theme });
             },
 
             setLanguage: (language) => {
                 set({ language });
                 document.documentElement.lang = language === 'pt-BR' ? 'pt-BR' : 'en';
+                syncSettingsToApi({ language });
             },
 
             toggleAudio: () => {
@@ -118,6 +128,7 @@ export const useSettingsStore = create<SettingsStore>()(
                     audioVolumes: defaultAudioVolumes,
                     targetScore: 800,
                     deadline: null,
+                    termsAccepted: false,
                 });
                 document.documentElement.classList.remove('dark');
                 document.documentElement.lang = 'pt-BR';
@@ -128,6 +139,7 @@ export const useSettingsStore = create<SettingsStore>()(
                     audioVolumes: defaultAudioVolumes,
                     targetScore: 800,
                     deadline: null,
+                    termsAccepted: false,
                 });
             },
         }),
