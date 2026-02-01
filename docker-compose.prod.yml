@@ -1,0 +1,43 @@
+# This docker-compose is for users who want to pull pre-built images from GitHub Container Registry
+# No need to build locally - just run: docker-compose up -d
+
+services:
+  mongodb:
+    image: mongo:7-jammy
+    container_name: ccp-simulator-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: ccp_simulator
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    image: ghcr.io/pedrohssoares-dev/aws-ccp-simulator-api:latest
+    container_name: ccp-simulator-api
+    ports:
+      - "3001:3001"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      MONGO_URL: mongodb://mongodb:27017/ccp_simulator
+      PORT: 3001
+    restart: unless-stopped
+
+  frontend:
+    image: ghcr.io/pedrohssoares-dev/aws-ccp-simulator:latest
+    container_name: ccp-simulator-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  mongo-data:
