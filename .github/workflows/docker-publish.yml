@@ -32,11 +32,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Lowercase Repo Name
+        run: echo "REPO_LOWER=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+
       - name: Extract metadata for Frontend
         id: meta-frontend
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}
+          images: ${{ env.REGISTRY }}/${{ env.REPO_LOWER }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -48,7 +51,7 @@ jobs:
         id: meta-api
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}-api
+          images: ${{ env.REGISTRY }}/${{ env.REPO_LOWER }}-api
           tags: |
             type=ref,event=branch
             type=ref,event=pr
