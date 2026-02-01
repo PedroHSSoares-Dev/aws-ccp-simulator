@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+/* AWS Color Theme */
+@theme {
+  /* AWS Official Colors */
+  --color-aws-orange: #FF9900;
+  --color-aws-dark-blue: #232F3E;
+  --color-aws-light-blue: #0972D3;
+  --color-aws-light-gray: #F2F3F3;
+  --color-aws-border-gray: #D5DBDB;
+  
+  /* Domain Colors */
+  --color-domain-1: #0972D3;
+  --color-domain-2: #D13212;
+  --color-domain-3: #FF9900;
+  --color-domain-4: #037F0C;
+  
+  /* UI Colors */
+  --color-background: #FFFFFF;
+  --color-card: #F2F3F3;
+  --color-card-hover: #FAFAFA;
+  --color-text-primary: #16191F;
+  --color-text-secondary: #687078;
+  --color-border: #D5DBDB;
+  --color-success: #037F0C;
+  --color-error: #D13212;
+  --color-warning: #FF9900;
+}
+
+/* Dark mode overrides */
+.dark {
+  --color-background: #1A1A2E;
+  --color-card: #16213E;
+  --color-card-hover: #1F3460;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #AAB7B8;
+  --color-border: #545B64;
+}
+
+/* Base styles */
+body {
+  @apply bg-background text-text-primary font-sans antialiased;
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-card;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-border rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-text-secondary;
+}
+
+/* Timer shake animation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+  20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Pulse animation for selection */
+@keyframes pulse-once {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.animate-pulse-once {
+  animation: pulse-once 0.3s ease-in-out;
+}
+
+/* Fade transition */
+.fade-enter {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 150ms ease-in;
+}
+
+/* Markdown content styles */
+.markdown-content h1 {
+  @apply text-2xl font-bold mt-4 mb-2;
+}
+
+.markdown-content h2 {
+  @apply text-xl font-semibold mt-3 mb-2;
+}
+
+.markdown-content h3 {
+  @apply text-lg font-medium mt-2 mb-1;
+}
+
+.markdown-content p {
+  @apply my-2 leading-relaxed;
+}
+
+.markdown-content ul {
+  @apply list-disc list-inside my-2 ml-4;
+}
+
+.markdown-content ol {
+  @apply list-decimal list-inside my-2 ml-4;
+}
+
+.markdown-content li {
+  @apply my-1;
+}
+
+.markdown-content code {
+  @apply bg-card px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+.markdown-content pre {
+  @apply bg-card p-4 rounded-lg overflow-x-auto my-3;
+}
+
+.markdown-content pre code {
+  @apply bg-transparent p-0;
+}
+
+.markdown-content strong {
+  @apply font-semibold;
+}
+
+.markdown-content table {
+  @apply w-full my-3 border-collapse;
+}
+
+.markdown-content th {
+  @apply bg-card border border-border px-3 py-2 text-left font-semibold;
+}
+
+.markdown-content td {
+  @apply border border-border px-3 py-2;
+}
+
+.markdown-content blockquote {
+  @apply border-l-4 border-aws-orange pl-4 my-3 italic text-text-secondary;
+}
