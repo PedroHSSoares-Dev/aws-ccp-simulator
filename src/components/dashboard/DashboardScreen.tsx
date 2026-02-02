@@ -104,201 +104,106 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onBack, questi
         };
     }, [attempts]);
 
-    // Evolution chart data
+    // Filter data based on selected mode
+    const [chartMode, setChartMode] = useState<'all' | 'official' | 'practice'>('all');
+
     const evolutionData = useMemo(() => {
-        return [...attempts]
+        let filteredAttempts = [...attempts];
+
+        if (chartMode === 'official') {
+            filteredAttempts = filteredAttempts.filter(a => a.mode === 'official');
+        } else if (chartMode === 'practice') {
+            filteredAttempts = filteredAttempts.filter(a => a.mode === 'practice' || a.mode === 'quick');
+        }
+
+        return filteredAttempts
             .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
             .map(a => ({
                 date: a.date,
                 score: a.score,
                 passed: a.passed,
             }));
-    }, [attempts]);
+    }, [attempts, chartMode]);
 
-    // Domain performance data
-    const domainPerformance = useMemo(() => {
-        if (attempts.length === 0) return [];
+    // ... (rest of the code)
 
-        const domainStats: Record<DomainKey, { correct: number; total: number }> = {
-            domain1: { correct: 0, total: 0 },
-            domain2: { correct: 0, total: 0 },
-            domain3: { correct: 0, total: 0 },
-            domain4: { correct: 0, total: 0 },
-        };
+    {/* Charts Row */ }
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="space-y-4">
+            <div className="flex justify-end">
+                <div className="inline-flex rounded-md shadow-sm" role="group">
+                    <button
+                        type="button"
+                        onClick={() => setChartMode('all')}
+                        className={`px-3 py-1.5 text-xs font-medium border rounded-l-lg ${chartMode === 'all'
+                                ? 'bg-primary text-primary-foreground border-primary'
+                                : 'bg-background text-text-secondary border-border hover:bg-muted'
+                            }`}
+                    >
+                        Todos
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setChartMode('official')}
+                        className={`px-3 py-1.5 text-xs font-medium border-t border-b border-r ${chartMode === 'official'
+                                ? 'bg-primary text-primary-foreground border-primary'
+                                : 'bg-background text-text-secondary border-border hover:bg-muted'
+                            }`}
+                    >
+                        Oficial
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setChartMode('practice')}
+                        className={`px-3 py-1.5 text-xs font-medium border-t border-b border-r rounded-r-lg ${chartMode === 'practice'
+                                ? 'bg-primary text-primary-foreground border-primary'
+                                : 'bg-background text-text-secondary border-border hover:bg-muted'
+                            }`}
+                    >
+                        Prática
+                    </button>
+                </div>
+            </div>
+            <EvolutionChart data={evolutionData} />
+        </div>
+        <DomainHeatmap
+            domainPerformance={domainPerformance}
+            onDomainClick={handleHeatmapClick}
+        />
+    </div>
 
-        // Aggregate all domain scores
-        attempts.forEach(attempt => {
-            if (attempt.domainScores) {
-                (Object.keys(attempt.domainScores) as DomainKey[]).forEach(domain => {
-                    const score = attempt.domainScores[domain];
-                    if (score) {
-                        domainStats[domain].correct += score.correct;
-                        domainStats[domain].total += score.total;
-                    }
-                });
-            }
-        });
-
-        return (Object.keys(domainStats) as DomainKey[])
-            .map(domain => ({
-                domain,
-                correct: domainStats[domain].correct,
-                total: domainStats[domain].total,
-                percentage: domainStats[domain].total > 0
-                    ? Math.round((domainStats[domain].correct / domainStats[domain].total) * 100)
-                    : 0,
-            }))
-            .filter(d => d.total > 0);
-    }, [attempts]);
-
-    // Weak points based on domain performance
-    const weakPoints = useMemo(() => {
-        return domainPerformance
-            .filter(d => d.percentage < 75) // Show items with < 75% accuracy
-            .sort((a, b) => (b.total - b.correct) - (a.total - a.correct)) // Sort by Most Errors first
-            .slice(0, 4)
-            .map(d => {
-                const domainNames: Record<DomainKey, string> = {
-                    domain1: 'Cloud Concepts',
-                    domain2: 'Security',
-                    domain3: 'Technology',
-                    domain4: 'Billing',
-                };
-                return {
-                    domain: domainNames[d.domain],
-                    rawDomain: d.domain,
-                    topic: `${domainNames[d.domain]} - Conceitos Gerais`,
-                    accuracy: d.percentage,
-                    questionsWrong: d.total - d.correct,
-                    maarekSection: `Seção: ${domainNames[d.domain]}`,
-                };
-            });
-    }, [domainPerformance]);
-
-    // Recent exams for table
-    const recentExams = useMemo(() => {
-        return [...attempts]
-            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-            .slice(0, 10)
-            .map(a => ({
-                id: a.id,
-                date: a.date,
-                score: a.score,
-                passed: a.passed,
-                duration: a.duration,
-                mode: a.mode,
-                totalQuestions: a.totalQuestions,
-                correctAnswers: a.correctAnswers,
-            }));
-    }, [attempts]);
-    // Find selected attempt
-    const selectedAttempt = useMemo(() => {
-        return attempts.find(a => a.id === selectedAttemptId);
-    }, [attempts, selectedAttemptId]);
-
-    // Render detailed view if attempt selected
-    if (selectedAttempt) {
-        return (
-            <ResultsScreen
-                attempt={selectedAttempt}
-                questions={questions}
-                onNewExam={() => {
-                    // Logic to retry could go here, for now just go back
-                    setSelectedAttemptId(null);
-                    onBack();
-                }}
-                onGoHome={() => setSelectedAttemptId(null)}
-                isHistoryView={true}
-            // We don't verify dashboard because we are in dashboard
+    {/* Bottom Row */ }
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+            <RecentExamsTable
+                attempts={recentExams}
+                onViewDetails={setSelectedAttemptId}
             />
-        );
-    }
+        </div>
+        <WeakPointsPanel
+            weakPoints={weakPoints}
+            onPointClick={handleWeakPointClick}
+        />
+    </div>
 
-    return (
-        <div className="min-h-screen bg-background">
-            {/* Header */}
-            <header className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border">
-                <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={onBack}
-                            className="gap-2"
-                        >
-                            <ArrowLeft className="w-4 h-4" />
-                            Voltar
-                        </Button>
-                        <h1 className="text-xl font-bold text-text-primary">
-                            Dashboard de Desempenho
-                        </h1>
-                    </div>
-                    {attempts.length > 0 && (
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => setShowClearConfirm(true)}
-                            className="gap-2 text-error hover:bg-error/10"
-                        >
-                            <RotateCcw className="w-4 h-4" />
-                            Limpar Histórico
-                        </Button>
-                    )}
-                </div>
-            </header>
+    {/* Top Missed Questions */ }
+    <div className="w-full">
+        <TopMissedQuestions
+            stats={topMissedQuestions}
+            questions={questions}
+            selectedDomain={selectedDomain}
+            onDomainSelect={setSelectedDomain}
+        />
+    </div>
+            </main >
 
-            {/* Content */}
-            <main className="max-w-7xl mx-auto px-4 py-6 space-y-6">
-                {/* Stats Cards */}
-                <StatsCards
-                    totalExams={stats.totalExams}
-                    passRate={stats.passRate}
-                    bestScore={stats.bestScore}
-                    averageScore={stats.averageScore}
-                    lastExamTrend={stats.lastExamTrend}
-                />
-
-                {/* Charts Row */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <EvolutionChart data={evolutionData} />
-                    <DomainHeatmap
-                        domainPerformance={domainPerformance}
-                        onDomainClick={handleHeatmapClick}
-                    />
-                </div>
-
-                {/* Bottom Row */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-2">
-                        <RecentExamsTable
-                            attempts={recentExams}
-                            onViewDetails={setSelectedAttemptId}
-                        />
-                    </div>
-                    <WeakPointsPanel
-                        weakPoints={weakPoints}
-                        onPointClick={handleWeakPointClick}
-                    />
-                </div>
-
-                {/* Top Missed Questions */}
-                <div className="w-full">
-                    <TopMissedQuestions
-                        stats={topMissedQuestions}
-                        questions={questions}
-                        selectedDomain={selectedDomain}
-                        onDomainSelect={setSelectedDomain}
-                    />
-                </div>
-            </main>
-
-            {/* Modals */}
-            <WeakPointsModal
-                isOpen={activeModal === 'weakPoints'}
-                onClose={closeModal}
-                domain={modalDomain}
-                questions={questions}
-            />
+    {/* Modals */ }
+    < WeakPointsModal
+isOpen = { activeModal === 'weakPoints'}
+onClose = { closeModal }
+domain = { modalDomain }
+questions = { questions }
+    />
 
             <DomainHistoryModal
                 isOpen={activeModal === 'domainHistory'}
