@@ -275,7 +275,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onBack, questi
                 {/* Charts Row */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div className="space-y-4">
-                        <div className="flex justify-end">
+                        <div className="flex justify-end relative z-10" data-testid="dashboard-filters">
                             <div className="inline-flex rounded-md shadow-sm" role="group">
                                 <button
                                     type="button"
